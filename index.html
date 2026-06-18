@@ -1,0 +1,62 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>2C4S - link</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- ===== TOPBAR ===== -->
+<header class="topbar">
+  <h1>2Cool4School - link</h1>
+  <button id="login-btn" type="button">Connexion</button>
+</header>
+
+<div class="layout">
+
+  <!-- ===== SIDEBAR GAUCHE ===== -->
+  <aside class="sidebar left">
+    <h2>Projets</h2>
+    <ul id="project-list"></ul>
+
+    <!-- PROFIL -->
+    <div class="profile">
+      <div id="user-name">Guest</div>
+      <button id="logout-btn" class="hidden">Déconnexion</button>
+    </div>
+  </aside>
+
+  <!-- ===== CONTENU ===== -->
+  <main class="content">
+    <div id="empty-state">Sélectionne un projet</div>
+    <iframe id="project-frame"></iframe>
+  </main>
+
+  <!-- ===== SIDEBAR DROITE (ADMIN) ===== -->
+  <aside class="sidebar right hidden" id="admin-panel">
+    <h2>Ajouter un projet</h2>
+
+    <input id="proj-name" placeholder="Nom">
+    <input id="proj-link" placeholder="Lien (https://...)">
+
+    <button id="add-btn">Ajouter</button>
+  </aside>
+
+</div>
+
+<!-- ===== MODAL LOGIN ===== -->
+<div id="login-modal" class="modal hidden">
+  <div class="login-box">
+    <h2>Connexion</h2>
+    <input id="password" type="password" placeholder="Mot de passe">
+    <button id="submit-login">Valider</button>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
+

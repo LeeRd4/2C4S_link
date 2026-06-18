@@ -1,0 +1,182 @@
+:root {
+  
+ --bg: #0d021f;        
+  --panel: #1b063a;     
+  --border: #7b2cbf;    
+  --text: #f3e8ff;      
+  --muted: #cdb4db;     
+  --accent: #9d4edd; 
+
+  --radius: 14px;
+}
+
+/* RESET */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* ===== TOPBAR ===== */
+.topbar {
+  height: 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  background: var(--panel);
+  border-bottom: 1px solid var(--border);
+}
+
+/* ===== LAYOUT ===== */
+.layout {
+  display: grid;
+  grid-template-columns: 240px 1fr 300px;
+  height: calc(100vh - 60px);
+}
+
+/* ===== SIDEBARS ===== */
+.sidebar {
+  background: var(--panel);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar.left {
+  border-right: 1px solid var(--border);
+}
+
+.sidebar.right {
+  border-left: 1px solid var(--border);
+}
+
+.sidebar h2 {
+  margin-bottom: 10px;
+}
+
+/* ===== LISTE PROJETS ===== */
+#project-list {
+  flex: 1;
+  list-style: none;
+}
+
+#project-list li {
+  padding: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+#project-list li:hover {
+  background: var(--accent);
+}
+
+/* ===== CONTENU ===== */
+.content {
+  position: relative;
+  padding: 10px;
+}
+
+iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: var(--radius);
+  background: var(--panel);
+}
+
+#empty-state {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--muted);
+  pointer-events: none;
+}
+
+/* ===== PROFIL ===== */
+.profile {
+  border-top: 1px solid var(--border);
+  padding-top: 10px;
+}
+
+#user-name {
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+
+#logout-btn {
+  background: none;
+  border: 1px solid var(--border);
+  padding: 6px;
+  cursor: pointer;
+  color: var(--text);
+}
+
+/* ===== FORM ===== */
+input {
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+}
+
+button {
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  background: var(--accent);
+  color: white;
+}
+
+.project-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.project-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.project-actions button {
+  padding: 4px 6px;
+  font-size: 12px;
+  background: transparent;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  color: var(--text);
+}
+
+.project-actions button:hover {
+  background: var(--accent);
+}
+
+/* ===== MODAL ===== */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-box {
+  background: var(--panel);
+  padding: 20px;
+  border-radius: var(--radius);
+  width: 300px;
+}
+
+/* ===== UTILS ===== */
+.hidden {
+  display: none;
+}
