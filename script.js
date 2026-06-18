@@ -5,7 +5,8 @@ document.addEventListener("DOMContentLoaded", () => {
   // ========================
 
   let isAdmin = false;
-  const projects = [];
+
+  let projects = JSON.parse(localStorage.getItem("projects")) || [];
 
   const loginBtn = document.getElementById("login-btn");
   const modal = document.getElementById("login-modal");
@@ -18,12 +19,35 @@ document.addEventListener("DOMContentLoaded", () => {
   const adminPanel = document.getElementById("admin-panel");
 
   const projectList = document.getElementById("project-list");
-  const projectFrame = document.getElementById("project-frame");
-  const emptyState = document.getElementById("empty-state");
 
-  const addBtn = document.getElementById("add-btn");
   const nameInput = document.getElementById("proj-name");
   const linkInput = document.getElementById("proj-link");
+
+  const addBtn = document.getElementById("add-btn");
+
+  // zone affichage projet
+  const projTitle = document.getElementById("proj-title");
+  const projDesc = document.getElementById("proj-desc");
+  const projDate = document.getElementById("proj-date");
+  const projAuthor = document.getElementById("proj-author");
+  const openBtn = document.getElementById("open-project");
+
+  const projectInfo = document.getElementById("project-info");
+  const emptyState = document.getElementById("empty-state");
+
+
+  // ========================
+  // SAUVEGARDE
+  // ========================
+
+  function saveProjects() {
+    localStorage.setItem("projects", JSON.stringify(projects));
+  }
+
+  function updateProjects() {
+    saveProjects();
+    renderProjects();
+  }
 
 
   // ========================
@@ -52,10 +76,11 @@ document.addEventListener("DOMContentLoaded", () => {
       adminPanel.classList.add("hidden");
     }
 
+    passwordInput.value = "";
     modal.classList.add("hidden");
   });
 
-  // ENTER = login
+  // ENTER login
   passwordInput.addEventListener("keypress", (e) => {
     if (e.key === "Enter") {
       submitLogin.click();
@@ -92,14 +117,20 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    projects.push({ name, link });
+    projects.push({
+      name: name,
+      link: link,
+      description: "Aucune description",
+      date: new Date().toLocaleDateString(),
+      author: "Admin"
+    });
 
-    // ✅ vider formulaire
+    // vider form
     nameInput.value = "";
     linkInput.value = "";
     nameInput.focus();
 
-    renderProjects();
+    updateProjects();
   });
 
 
@@ -115,48 +146,61 @@ document.addEventListener("DOMContentLoaded", () => {
       const li = document.createElement("li");
       li.className = "project-item";
 
-      // NOM
       const name = document.createElement("span");
       name.textContent = p.name;
 
+      // CLICK = afficher infos
       name.addEventListener("click", () => {
-        projectFrame.src = p.link;
+
+        projTitle.textContent = p.name;
+        projDesc.textContent = p.description;
+        projDate.textContent = p.date;
+        projAuthor.textContent = p.author;
+
+        projectInfo.classList.remove("hidden");
         emptyState.style.display = "none";
+
+        openBtn.onclick = () => {
+          window.open(p.link, "_blank");
+        };
+
       });
 
       li.appendChild(name);
 
+      // ========================
       // ACTIONS ADMIN
+      // ========================
+
       if (isAdmin) {
 
         const actions = document.createElement("div");
         actions.className = "project-actions";
 
-        // ✏️ MODIFIER
+        //  MODIFIER
         const editBtn = document.createElement("button");
         editBtn.textContent = "✏️";
 
-        editBtn.addEventListener("click", () => {
-          const newName = prompt("Nouveau nom :", p.name);
-          const newLink = prompt("Nouveau lien :", p.link);
+        editBtn.onclick = () => {
+          const newName = prompt("Nom :", p.name);
+          const newLink = prompt("Lien :", p.link);
 
           if (newName) p.name = newName;
           if (newLink) p.link = newLink;
 
-          renderProjects();
-        });
+          updateProjects();
+        };
 
         // 🗑 SUPPRIMER
         const deleteBtn = document.createElement("button");
         deleteBtn.textContent = "🗑";
 
-        deleteBtn.addEventListener("click", () => {
-          const confirmDelete = confirm("Supprimer ce projet ?");
-          if (!confirmDelete) return;
+        deleteBtn.onclick = () => {
+          if (!confirm("Supprimer ?")) return;
 
           projects.splice(index, 1);
-          renderProjects();
-        });
+          updateProjects();
+        };
 
         actions.appendChild(editBtn);
         actions.appendChild(deleteBtn);
@@ -170,14 +214,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   // ========================
-  // INITIALISATION
+  // INIT
   // ========================
-
-  // projet exemple (évite écran vide)
-  projects.push({
-    name: "Google",
-    link: "https://www.google.com"
-  });
 
   renderProjects();
 
